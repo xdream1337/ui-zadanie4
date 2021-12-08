@@ -4,29 +4,22 @@ import time
 import numpy as np
 import matplotlib.pyplot as plt
 
-
 class Point:
     def __init__(self, x, y, color):
         self.coords = (x, y)
         self.color = color
         self.euclidean_distance = -1
 
-
 def classify(x, y, k):
-    global number_of_training_data
-    global final_data
 
+    # calculates distances
     for j in range(number_of_training_data):
         final_data[j].euclidean_distance = math.sqrt(((x-final_data[j].coords[0]) ** 2) + ((y-final_data[j].coords[1]) ** 2))
-    # calculates distances
-
-    sorted_training_data = sorted(final_data, key=lambda z: z.euclidean_distance)
+    
     # sort data by distance from lowest to highest
-
-    r_count = 0
-    g_count = 0
-    b_count = 0
-    p_count = 0
+    sorted_training_data = sorted(final_data, key=lambda x: x.euclidean_distance)
+    
+    r_count, g_count, b_count, p_count = 0, 0, 0, 0
 
     for j in range(k):
         if sorted_training_data[j].color == "red":
@@ -38,21 +31,21 @@ def classify(x, y, k):
         elif sorted_training_data[j].color == "purple":
             p_count += 1
 
-    final_colour = max(r_count, g_count, b_count, p_count)
+    final_color = max(r_count, g_count, b_count, p_count)
 
-    if final_colour == r_count:
+    if final_color == r_count:
         final_data.append(Point(x, y, "red"))
         return "red"
 
-    elif final_colour == g_count:
+    elif final_color == g_count:
         final_data.append(Point(x, y, "green"))
         return "green"
 
-    elif final_colour == b_count:
+    elif final_color == b_count:
         final_data.append(Point(x, y, "blue"))
         return "blue"
 
-    elif final_colour == p_count:
+    elif final_color == p_count:
         final_data.append(Point(x, y, "purple"))
         return "purple"
 
@@ -140,15 +133,12 @@ for i in range(4):
     # sem zacinam robit
     red_points, blue_points, green_points, purple_points = 0, 0, 0, 0
     
-    #print('zacinam robit...')
-    
     while True:
         if red_points == blue_points == green_points == purple_points == N_COLOR:
             break
         
         while True:
             color = random.choice(color_list)
-            
             if color != last_assigned:
                 break
             
